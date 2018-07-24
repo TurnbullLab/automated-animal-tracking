@@ -41,8 +41,16 @@ def imaging(begin, path1, path3):
             stopwatch.append(capture_time)
             rawCapture.truncate(0) #Clearing the stream in preparation for the next frame
             
-            
-            cv2.imwrite("/media/pi/TOTO/" + begin + "/Original/image_%d.jpeg" % (storageind), image) #Writes frame and lebels it with a specific filenumber and storage ind
+            if storageind <= 20000:
+                cv2.imwrite("/media/pi/TOTO/" + begin + "/Original/image_%d.jpeg" % (storageind), image) #Writes frame and lebels it with a specific filenumber and storage ind
+            elif storageind>20000: and storageind<=40000:
+                cv2.imwrite("/media/pi/TOTO/" + begin + "/Original2/image_%d.jpeg" % (storageind), image)
+            elif storageind>40000: and storageind<=60000:
+                cv2.imwrite("/media/pi/TOTO/" + begin + "/Original3/image_%d.jpeg" % (storageind), image)
+            elif storageind>60000: and storageind<=80000:
+                cv2.imwrite("/media/pi/TOTO/" + begin + "/Original4/image_%d.jpeg" % (storageind), image)
+            elif storageind>80000:
+                cv2.imwrite("/media/pi/TOTO/" + begin + "/Original5/image_%d.jpeg" % (storageind), image)
             print("Frame %d saved at --- %d seconds ---" %(storageind, time.time()-start_time))
             cv2.imshow("Image",image)
             key = cv2.waitKey(1) & 0xFF

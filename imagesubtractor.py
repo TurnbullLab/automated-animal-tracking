@@ -23,6 +23,10 @@ begin = time.strftime("Date %Y_%m_%d_ --- Time %H_%M_%S")
 path = ("/media/pi/TOTO/"+ begin)
 os.mkdir(path)
 path1 = ("/media/pi/TOTO/" + begin + "/Original")
+path12 = ("/media/pi/TOTO/" + begin + "/Original2")
+path13 = ("/media/pi/TOTO/" + begin + "/Original3")
+path14 = ("/media/pi/TOTO/" + begin + "/Original4")
+path15 = ("/media/pi/TOTO/" + begin + "/Original5")
 path2 = ("/media/pi/TOTO/" + begin + "/Processed")
 path3 = ("/media/pi/TOTO/" + begin + "/Information")
 
@@ -31,6 +35,10 @@ if os.path.exists(path1): #Checks to see if path already exists
     os.mkdir(path1)  #Make Directory function (path, mode)
 else:
     os.mkdir(path1)  #If the path does not exist a new one is created
+    os.mkdir(path12)
+    os.mkdir(path13)
+    os.mkdir(path14)
+    os.mkdir(path15)
     
 if os.path.exists(path2): 
     shutil.rmtree(path2)
