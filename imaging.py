@@ -5,7 +5,7 @@ Created on Mon Jul  9 13:08:41 2018
 @author: notic
 """
 
-def imaging(begin, path1, path3):
+def imaging(begin):
     
     from picamera.array import PiRGBArray
     from picamera import PiCamera
@@ -23,7 +23,7 @@ def imaging(begin, path1, path3):
     
     camera=PiCamera()
     camera.resolution = (1648,928)
-    camera.framerate = 32
+    camera.framerate = 2
     rawCapture = PiRGBArray(camera, size=(1648,928))
     time.sleep(2)                      # Warmup time for camera
     storageind = 0
@@ -43,11 +43,11 @@ def imaging(begin, path1, path3):
             
             if storageind <= 20000:
                 cv2.imwrite("/media/pi/TOTO/" + begin + "/Original/image_%d.jpeg" % (storageind), image) #Writes frame and lebels it with a specific filenumber and storage ind
-            elif storageind>20000: and storageind<=40000:
+            elif storagrind>20000 and storageind<=40000:
                 cv2.imwrite("/media/pi/TOTO/" + begin + "/Original2/image_%d.jpeg" % (storageind), image)
-            elif storageind>40000: and storageind<=60000:
+            elif storagrind>40000 and storageind<=60000:
                 cv2.imwrite("/media/pi/TOTO/" + begin + "/Original3/image_%d.jpeg" % (storageind), image)
-            elif storageind>60000: and storageind<=80000:
+            elif storagrind>60000 and storageind<=80000:
                 cv2.imwrite("/media/pi/TOTO/" + begin + "/Original4/image_%d.jpeg" % (storageind), image)
             elif storageind>80000:
                 cv2.imwrite("/media/pi/TOTO/" + begin + "/Original5/image_%d.jpeg" % (storageind), image)

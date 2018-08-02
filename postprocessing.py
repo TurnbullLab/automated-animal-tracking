@@ -22,7 +22,7 @@ storageind = 0
 contoursa = []
 cenY = []
 cenX = []
-tvalue = 50
+tvalue = 60
 #==============================================================================
 # Folder path
 #==============================================================================
@@ -46,13 +46,15 @@ else:
     print("You selected the wrong number! Restart the code!")    
 
 path1 = path + "/Original"
+path12 = (path + "/Original2")
+path13 = (path + "/Original3")
+path14 = (path + "/Original4")
+path15 = (path + "/Original5")
 path2 = path + "/Processed"
 path3 = path + "/Information"
 #==============================================================================
 # Information files
 #==============================================================================
-mousecontours = open(path3 + "/Mouse_Name_Contours.txt" ,'wt')
-mousecenters = open(path3 + "/Mouse_Name_Centers.txt", 'wt')
 nomouseind = 0
     
    
@@ -66,16 +68,26 @@ bckGray = cv2.cvtColor(bckimage, cv2.COLOR_BGR2GRAY)
 bckBlur = cv2.GaussianBlur(bckGray, (91, 91), 0)
 avg = bckBlur.copy().astype("float")
 
-
+totalind = (len(os.listdir(path1)) + len(os.listdir(path12)) + len(os.listdir(path13)) + len(os.listdir(path14)) + len(os.listdir(path15)))
 start_time = time.time()
-for filename in os.listdir(path1):
+#totalind = 21000
+for filenum in range(0,totalind):
 
 
 #==============================================================================
 #  Import images# 
 #==============================================================================
-
-    rstimage = cv2.imread(path1 + "/" + filename)
+    if filenum <=20000:
+        rstimage = cv2.imread(path1 + "/image_%d.jpeg" %filenum)
+    elif filenum>20000 and filenum<=40000:
+        rstimage = cv2.imread(path12 + "/image_%d.jpeg" %filenum)
+    elif filenum>40000 and filenum<=60000:
+        rstimage = cv2.imread(path13 + "/image_%d.jpeg" %filenum)
+    elif filenum>60000 and filenum<=80000:
+        rstimage = cv2.imread(path14 + "/image_%d.jpeg" %filenum)
+    elif filenum>80000 :
+        rstimage = cv2.imread(path15 + "/image_%d.jpeg" %filenum)
+        
 
 #==============================================================================
 # Grayscale image
@@ -93,7 +105,7 @@ for filename in os.listdir(path1):
 #  Subtract
 #==============================================================================
     
-    cv2.accumulateWeighted(rstBlur, avg, 0.9)
+    cv2.accumulateWeighted(rstBlur, avg, 0.8)
     
 #==============================================================================
 # Adaptive threshold
@@ -138,12 +150,10 @@ for filename in os.listdir(path1):
         cY = int(M["m01"] / M["m00"])
         contoursa.append(mouse)
         mousestr = str(mouse)
-        mousecontours.write(mousestr + ';\n' )
         cenY.append(cY)
         cenX.append(cX)
         cXstr = str(cX)
         cYstr = str(cY)
-        mousecenters.write(cXstr + " " + cYstr + ";\n")
                             
     except ZeroDivisionError:
         nomouseind += 1
@@ -159,7 +169,7 @@ for filename in os.listdir(path1):
     locationx.append(cX)
     locationy.append(cY)
         
-    cv2.imwrite(path2 + "/Processed_" + filename, rstimage)
+    cv2.imwrite(path2 + "/Processed_image_%d.jpeg" %filenum , rstimage)
     if math.fmod(storageind,5) == 0:
         print("Frame %d processed at %d seconds" %(storageind, time.time()-start_time))
     storageind += 1
@@ -168,9 +178,7 @@ for filename in os.listdir(path1):
 print("The processing lasted %s seconds for %d frames" %((time.time()-start_time), storageind))    
 np.save(path3 + "/Contours.npy", contoursa)
 np.save(path3 + "/Center_X.npy", cenX)
-np.save(path3 + "/Center_Y.npy", cenY)    
-mousecontours.close
-mousecenters.close        
+np.save(path3 + "/Center_Y.npy", cenY)          
     #return
     
 #postprocessing()
